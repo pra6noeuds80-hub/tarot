@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Arcanes · tarot et tirages astrologiques (Copy)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0f1f;--panel:#171933;--ink:#f1e8d4;--mute:#a9a6bf;--gold:#d6b46a;--line:#3a3c66;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#f3ecdc;--panel:#fffaf0;--ink:#241f3a;--mute:#6b6584;--gold:#8a6a22;--line:#d8cdb2}}
+:root[data-theme=dark]{--bg:#0e0f1f;--panel:#171933;--ink:#f1e8d4;--mute:#a9a6bf;--gold:#d6b46a;--line:#3a3c66}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 18px/1.5 "Cormorant Garamond",Georgia,serif;--c1:#14153a;--c2:#d6b46a;--c3:#f1e8d4;--c4:#d6b46a}
+body[data-deck=vitrail]{--c1:#12324d;--c2:#e0a030;--c3:#fdf2dc;--c4:#ef6a4c}
+body[data-deck=parchemin]{--c1:#f1e4c3;--c2:#6b3b1d;--c3:#2b1d14;--c4:#8c2f2f}
+body[data-deck=email]{--c1:#0b0b0d;--c2:#e2bf5f;--c3:#f3ead0;--c4:#e2bf5f}
+header{text-align:center;padding:1.6rem 1rem .4rem}
+h1{margin:0;font:400 clamp(2.2rem,7vw,3.6rem)/1 Marcellus,Georgia,serif;letter-spacing:.18em;color:var(--gold)}
+#sky{margin:.5rem 0 0;color:var(--mute);font-style:italic}
+.bar{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;align-items:center;padding:.8rem 1rem;max-width:1100px;margin:0 auto}
+select,button,.file{font:inherit;font-size:.95rem;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.45rem .8rem;cursor:pointer}
+button.p{background:var(--gold);color:#1a1530;border-color:var(--gold);font-weight:700}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+details.set{max-width:1100px;margin:0 auto;padding:0 1rem}
+summary{cursor:pointer;color:var(--mute);padding:.3rem 0}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;padding:.5rem 0 .8rem}
+label.ck{display:flex;gap:.4rem;align-items:center;font-size:.95rem}
+.file input{display:none}
+main{max-width:1100px;margin:0 auto;padding:0 1rem 2rem}
+.table{--w:clamp(54px,9.4vw,104px);position:relative;height:clamp(440px,64vw,660px);border:1px solid var(--line);border-radius:20px;overflow:hidden;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff9,transparent),radial-gradient(1px 1px at 70% 20%,#fff8,transparent),radial-gradient(1.5px 1.5px at 85% 70%,#fff8,transparent),radial-gradient(1px 1px at 40% 80%,#fff7,transparent),radial-gradient(ellipse at 50% 0,#2b2d6e,#0b0c1e 70%)}
+[data-decor=foret] .table{background:radial-gradient(ellipse at 50% 100%,#2a7a58,#08201a 75%)}
+[data-decor=pourpre] .table{background:radial-gradient(circle at 50% 40%,#7a2246,#1c0714 80%)}
+[data-decor=aube] .table{background:linear-gradient(#f2b27a,#c96f7a 52%,#3b2a5c)}
+[data-decor=velours] .table{background:repeating-linear-gradient(45deg,#0f3b3a 0 3px,#124643 3px 6px)}
+[data-decor=photo] .table{background:var(--pd) center/cover}
+.slot{position:absolute;transform:translate(-50%,-50%);animation:deal .6s both;animation-delay:calc(var(--i)*90ms)}
+@keyframes deal{from{opacity:0;transform:translate(-50%,-90%) scale(.5)}}
+.card{position:relative;width:var(--w);aspect-ratio:7/12;perspective:800px;cursor:pointer;transform:rotate(var(--r,0deg))}
+.in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.card.open .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:7px;box-shadow:0 6px 16px #0008}
+.front{transform:rotateY(180deg);background:var(--c1);color:var(--c3);border:2px solid var(--c2);box-shadow:0 6px 16px #0008,inset 0 0 0 4px var(--c1),inset 0 0 0 5px var(--c2)}
+[data-deck=email] .front{box-shadow:0 0 14px #e2bf5f66,inset 0 0 0 4px var(--c1),inset 0 0 0 5px var(--c2)}
+.fc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:9% 6%;text-align:center}
+.fc.rv{transform:rotate(180deg)}
+.num{font:400 calc(var(--w)*.15)/1 Marcellus,serif;color:var(--c2)}
+.g{font-size:calc(var(--w)*.46);line-height:1;color:var(--c4);font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Apple Symbols",serif}
+.g svg{width:calc(var(--w)*.46);height:calc(var(--w)*.46);stroke:currentColor;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.nm{font:700 calc(var(--w)*.125)/1.1 "Cormorant Garamond",serif}
+.back{border:2px solid var(--c2);display:grid;place-items:center;color:var(--c2);font-size:calc(var(--w)*.4)}
+.back::after{content:"✦";text-shadow:0 0 8px #000}
+[data-back=etoiles] .back{background:radial-gradient(#fff4 1px,transparent 1.5px) 0 0/10px 10px,#1a1b45}
+[data-back=soleil] .back{background:repeating-conic-gradient(#2a1c4a 0 10deg,#6a3560 10deg 20deg)}
+[data-back=losange] .back{background:repeating-linear-gradient(45deg,#16304a 0 6px,#2a5a7a 6px 7px),#16304a}
+[data-back=coquille] .back{background:repeating-radial-gradient(circle at 50% 100%,#3a1d2e 0 6px,#7a3a55 6px 8px)}
+[data-back=photo] .back{background:var(--pb) center/cover}
+[data-back=photo] .back::after{content:""}
+.lab{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:.72rem;line-height:1.05;text-align:center;width:max-content;max-width:calc(var(--w)*1.5);color:#f3e3b8;text-shadow:0 1px 3px #000}
+.lab.up{top:auto;bottom:calc(100% + 8px)}
+#rd{list-style:none;padding:0;margin:1.2rem 0;display:grid;gap:.6rem}
+#rd li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:.6rem .9rem}
+#rd i{color:var(--mute)}
+.act{display:flex;gap:.6rem;flex-wrap:wrap}
+#hl p{margin:.5rem 0;padding:.5rem .8rem;background:var(--panel);border-radius:8px;white-space:pre-wrap;font-size:.92rem}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding:0 1rem 2rem}
+.art{width:80%;flex:1;min-height:0;object-fit:cover;border-radius:4px;margin:5% 0;border:1px solid var(--c2)}
+#bg{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:.5rem;margin:.6rem 0}
+#bg button{position:relative;padding:0;aspect-ratio:7/10;overflow:hidden;border-radius:8px}
+#bg .tag{position:absolute;left:0;right:0;bottom:0;background:#000c;color:#d6b46a;font-size:.68rem;line-height:1.2;padding:3px 0;text-align:center}
+#bg img{width:100%;height:100%;object-fit:cover;display:block}
+#bg button[aria-pressed=true]{outline:3px solid var(--gold)}
+.table.solo{--w:calc(clamp(440px,64vw,660px)*.49)}
+.table.solo .lab{font-size:1rem;top:calc(100% + 8px)}
+#dlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.2rem .8rem;max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:.6rem;margin:.4rem 0}
+.bgi{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:5px}
+.ov{position:relative;z-index:1;color:#fff;text-shadow:0 1px 4px #000,0 0 2px #000}
+#bs{color:var(--mute);font-size:.9rem;margin:.3rem 0}
+@media (prefers-reduced-motion:reduce){.slot{animation:none}.in{transition:none}}
+</style></head><body data-deck="nocturne" data-decor="nuit" data-back="etoiles">
+<header><h1>Arcanes</h1><p id="sky"></p></header>
+<div class="bar">
+<select id="sp" aria-label="Tirage">
+<option value="jour">Carte du jour</option><option value="trois">Passé · présent · avenir</option><option value="fer">Fer à cheval (7)</option><option value="celt">Croix celtique (10)</option>
+<option value="trin">Astro : Soleil, Lune, Ascendant</option><option value="mais">Astro : les 12 maisons</option></select>
+<button class="p" id="go">Mélanger et tirer</button><button id="all">Tout révéler</button>
+<label class="ck"><input type="checkbox" id="rv"> Cartes renversées</label></div>
+<details class="set"><summary>Jeu, décor, dos de carte, ciel</summary><div class="row">
+<select id="dk" aria-label="Jeu"><option value="nocturne">Jeu Nocturne</option><option value="vitrail">Jeu Vitrail</option><option value="parchemin">Jeu Parchemin</option><option value="email">Jeu Émail noir et or</option></select>
+<select id="dc" aria-label="Décor"><option value="nuit">Décor nuit étoilée</option><option value="foret">Décor forêt</option><option value="pourpre">Décor pourpre</option><option value="aube">Décor aube</option><option value="velours">Décor velours</option><option value="photo">Ma photo de décor</option></select>
+<select id="bk" aria-label="Dos"><option value="etoiles">Dos étoiles</option><option value="soleil">Dos soleil</option><option value="losange">Dos losanges</option><option value="coquille">Dos coquille</option><option value="photo">Mon dos de carte</option></select>
+<label class="file">Importer un décor<input type="file" accept="image/*" id="fd"></label>
+<label class="file">Importer un dos<input type="file" accept="image/*" id="fb"></label>
+<select id="su" aria-label="Signe solaire"></select><select id="as" aria-label="Ascendant"></select></div></details>
+<main><div class="table" id="tb"></div><ol id="rd"></ol>
+<div class="act"><button id="cp">Copier la lecture</button></div>
+<details id="hist"><summary>Mes derniers tirages</summary><div id="hl"></div><button id="hc">Effacer</button></details></main>
+<details class="set" id="bq"><summary>Banque d’images et jeux de cartes</summary>
+<div class="row"><label class="file">Importer des images<input type="file" id="bi" accept="image/*" multiple></label><label class="file">Importer une banque<input type="file" id="bj" accept=".json,application/json"></label><button id="be">Exporter la banque</button><button id="bn">Copier le code</button></div>
+<div id="bg"></div><p id="bs"></p>
+<div class="row"><select id="bc" aria-label="Carte"></select><button id="ba">Attribuer à la carte</button><button id="bv">Aperçu</button><button id="br">Retirer l’image de la carte</button></div>
+<div class="row"><label class="ck"><input type="checkbox" id="of"> Image plein cadre</label><label class="ck"><input type="checkbox" id="ot"> Sans écriture</label><button id="oa">Appliquer à toutes les cartes</button></div>
+<div class="row"><button id="bd">En décor</button><button id="bb">En dos de carte</button><button id="bx">Supprimer l’image</button></div></details>
+<details class="set" id="dl"><summary>Télécharger des cartes (format tarot)</summary>
+<div class="row"><button id="da">Tout cocher</button><button id="dn">Tout décocher</button><button id="dt">Cartes du tirage</button><button id="di">Cartes illustrées</button></div>
+<div id="dlist"></div><p id="ds" class="bs2"></p>
+<div class="row"><button class="p" id="dgo">Télécharger la sélection (PDF)</button></div></details>
+<footer>Le tarot est un miroir pour réfléchir, pas une prédiction.</footer>
+<script>
+const $=s=>document.querySelector(s),B=document.body;
+const rnd=n=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296*n|0};
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const R=["0","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX","XXI"];
+const MAJ=[
+["Le Mat","♅","Saut dans l’inconnu, liberté, nouveau départ","Imprudence, errance, peur de s’engager","Uranus"],
+["Le Bateleur","☿","Initiative, talent, tous les outils sont là","Dispersion, manipulation, projet qui tarde","Mercure"],
+["La Papesse","☽","Intuition, secret, savoir intérieur","Silence subi, intuition ignorée","Lune"],
+["L’Impératrice","♀","Fécondité, création, abondance","Étouffement, blocage créatif","Vénus"],
+["L’Empereur","♈","Structure, autorité, protection","Rigidité, abus de pouvoir","Bélier"],
+["Le Pape","♉","Transmission, tradition, guide","Dogme, conformisme","Taureau"],
+["L’Amoureux","♊","Choix du cœur, union, alignement","Hésitation, tentation, désaccord","Gémeaux"],
+["Le Chariot","♋","Victoire, maîtrise, mouvement","Perte de cap, conflit intérieur","Cancer"],
+["La Force","♌","Courage doux, patience, cœur de lion","Doute, énergie qui s’épuise","Lion"],
+["L’Ermite","♍","Retrait, sagesse, lumière intérieure","Isolement, repli excessif","Vierge"],
+["La Roue de Fortune","♃","Cycle, chance, tournant","Retard, résistance au changement","Jupiter"],
+["La Justice","♎","Équilibre, vérité, décision juste","Injustice, mauvaise foi","Balance"],
+["Le Pendu","♆","Lâcher-prise, nouveau point de vue","Sacrifice inutile, stagnation","Neptune"],
+["L’Arcane sans nom","♏","Fin nécessaire, transformation, renaissance","Refus de tourner la page","Scorpion"],
+["La Tempérance","♐","Harmonie, guérison, juste mesure","Excès, déséquilibre","Sagittaire"],
+["Le Diable","♑","Attachements, désir, chaînes choisies","Libération, prise de conscience","Capricorne"],
+["La Maison-Dieu","♂","Rupture soudaine, vérité qui éclate","Choc évité de justesse, peur du changement","Mars"],
+["L’Étoile","♒","Espoir, inspiration, sérénité","Découragement, foi vacillante","Verseau"],
+["La Lune","♓","Rêves, illusions, peurs enfouies","Brouillard qui se lève, vérité qui perce","Poissons"],
+["Le Soleil","☉","Joie, clarté, réussite","Éclat voilé, enthousiasme tiède","Soleil"],
+["Le Jugement","♇","Appel, renaissance, bilan","Doute, appel ignoré","Pluton"],
+["Le Monde","♄","Accomplissement, unité, cycle bouclé","Fin retardée, travail inachevé","Saturne"]];
+const ic=p=>'<svg viewBox="0 0 24 24">'+p+'</svg>';
+const S=[["Bâtons","Feu · Bélier, Lion, Sagittaire","énergie, projets",ic('<path d="M12 3v18M12 8C8 7 7 4 7 3c3 0 5 2 5 5zm0 5c4-1 5-4 5-5-3 0-5 2-5 5z"/>')],
+["Coupes","Eau · Cancer, Scorpion, Poissons","cœur, relations",ic('<path d="M6 4h12c0 5-2 8-6 8S6 9 6 4zM12 12v6M8 20h8"/>')],
+["Épées","Air · Gémeaux, Balance, Verseau","esprit, vérité",ic('<path d="M12 2v15M8 14h8M12 17v4"/>')],
+["Deniers","Terre · Taureau, Vierge, Capricorne","matière, travail",ic('<circle cx="12" cy="12" r="9"/><path d="M12 6l1.8 4.6h4.7l-3.8 2.8 1.5 4.6-4.2-3-4.2 3 1.5-4.6-3.8-2.8h4.7z"/>')]];
+const RK=[["As","Commencement, élan pur","Départ manqué, énergie en friche"],["Deux","Choix, dualité, équilibre","Indécision, déséquilibre"],["Trois","Croissance, première réussite","Retard, plans qui s’éparpillent"],["Quatre","Stabilité, pause, fondations","Stagnation, enfermement"],["Cinq","Conflit, défi, friction","Tension qui s’apaise ou s’éternise"],["Six","Harmonie, passage, entraide","Dépendance, retour en arrière"],["Sept","Épreuve, stratégie, persévérance","Doute, abandon, stratégie floue"],["Huit","Mouvement, travail, maîtrise","Précipitation, routine pesante"],["Neuf","Presque au but, autonomie","Fatigue, solitude pesante"],["Dix","Aboutissement, plénitude","Surcharge, fin qui pèse"],["Valet","Message, curiosité, apprentissage","Immaturité, nouvelle qui se fait attendre"],["Cavalier","Quête, élan, action","Impatience, fuite en avant"],["Reine","Maturité intérieure, accueil","Repli, humeur changeante"],["Roi","Autorité, maîtrise, vision","Autoritarisme, maîtrise perdue"]];
+const DECK=MAJ.map((m,i)=>({n:m[0],g:m[1]+"\uFE0E",num:R[i],up:m[2],rv:m[3],as:m[4]}));
+S.forEach(s=>RK.forEach((r,i)=>DECK.push({n:r[0]+(/^[ÉAEIOU]/.test(s[0])?" d’":" de ")+s[0],g:s[3],num:i<10?(i?i+1:"As"):r[0],up:r[1]+" ("+s[2]+")",rv:r[2],as:s[1]})));
+const SG=["Bélier","Taureau","Gémeaux","Cancer","Lion","Vierge","Balance","Scorpion","Sagittaire","Capricorne","Verseau","Poissons"];
+const HM=["le soi","les biens","les échanges","les racines","la création","le quotidien","le couple","les mutations","les horizons","la vocation","les amitiés","l’inconscient"];
+const MO=["Nouvelle lune","Premier croissant","Premier quartier","Lune gibbeuse croissante","Pleine lune","Lune gibbeuse décroissante","Dernier quartier","Dernier croissant"];
+function sunSign(d){const b=[[1,20,10],[2,19,11],[3,21,0],[4,20,1],[5,21,2],[6,21,3],[7,23,4],[8,23,5],[9,23,6],[10,23,7],[11,22,8],[12,22,9]],v=(d.getMonth()+1)*100+d.getDate();let r=9;for(const[m,j,i]of b)if(v>=m*100+j)r=i;return r}
+const age=((Date.now()-Date.UTC(2000,0,6,18,14))/864e5%29.530588+29.530588)%29.530588;
+$("#sky").textContent="Aujourd’hui : Soleil en "+SG[sunSign(new Date())]+" · "+MO[Math.floor(age/29.530588*8+.5)%8];
+["#su","#as"].forEach((s,k)=>{$(s).innerHTML='<option value="-1">'+(k?"Mon ascendant…":"Mon signe solaire…")+'</option>'+SG.map((n,i)=>'<option value="'+i+'">'+n+'</option>').join("")});
+function spread(k){const a=+$("#as").value,u=+$("#su").value;
+if(k=="jour")return[[50,50,"Votre carte"]];
+if(k=="trois")return[[20,50,"Passé"],[50,50,"Présent"],[80,50,"Avenir"]];
+if(k=="fer"){const P=[[12,22],[22,50],[35,74],[50,82],[65,74],[78,50],[88,22]];return["Passé","Présent","Influences cachées","Obstacles","Entourage","Conseil","Issue"].map((l,i)=>[...P[i],l])}
+if(k=="celt")return[[34,50,"Situation"],[34,50,"Obstacle",90],[34,82,"Fondation"],[12,50,"Passé"],[34,18,"Couronne"],[58,50,"Avenir proche"],[88,84,"Vous"],[88,61,"Entourage"],[88,38,"Espoirs et peurs"],[88,15,"Issue"]];
+if(k=="trin")return[[20,50,"Soleil"+(u>=0?" en "+SG[u]:"")+" : identité"],[50,50,"Lune : émotions"],[80,50,"Ascendant"+(a>=0?" "+SG[a]:"")+" : masque"]];
+const o=[];for(let i=0;i<12;i++){const t=Math.PI+(i+.5)*Math.PI/6;o.push([Math.round(50+40*Math.cos(t)),Math.round(50-37*Math.sin(t)),"Maison "+R[i+1]+" : "+HM[i]+(a>=0?" ("+SG[(a+i)%12]+")":"")])}
+o.push([50,50,"Synthèse"]);return o}
+let cur=[];
+const BK={imgs:{},map:{},opt:{},decor:"",back:""};
+const face=(c,rv)=>{const im=BK.imgs[BK.map[c.n]],o=BK.opt[c.n]||{},h=im&&o.t,r='<div class="fc'+(rv?' rv':'')+'">';
+if(im&&o.f)return r+'<img class="bgi" alt="" src="'+im.data+'">'+(h?'':'<span class="num ov">'+c.num+'</span><span></span><span class="nm ov">'+c.n+'</span>')+'</div>';
+return r+(h?'':'<span class="num">'+c.num+'</span>')+(im?'<img class="art" alt="" src="'+im.data+'">':'<span class="g">'+c.g+'</span>')+(h?'':'<span class="nm">'+c.n+'</span>')+'</div>'};
+const item=o=>o.open?'<b>'+o.l+'</b> : '+o.c.n+(o.rv?" (renversée)":"")+'. '+(o.rv?o.c.rv:o.c.up)+'. <i>'+o.c.as+'</i>':'<b>'+o.l+'</b> : carte cachée, touchez-la pour la révéler';
+function paint(){$("#rd").innerHTML=cur.map(o=>'<li>'+item(o)+'</li>').join("")}
+function draw(){const P=spread($("#sp").value),d=shuf(DECK),use=$("#rv").checked;
+cur=P.map((p,i)=>({c:d[i],rv:use&&rnd(100)<35,l:p[2],open:false}));
+$("#tb").classList.toggle("solo",P.length==1);$("#tb").innerHTML=P.map((p,i)=>{const o=cur[i],r=p[3]||0;return'<div class="slot" style="left:'+p[0]+'%;top:'+p[1]+'%;--i:'+i+';z-index:'+(r?3:1)+'"><div class="card" data-i="'+i+'" style="--r:'+r+'deg" tabindex="0" role="button" aria-label="'+p[2]+' : retourner la carte"><div class="in"><div class="face back"></div><div class="face front">'+face(o.c,o.rv)+'</div></div></div><span class="lab'+(r?' up':'')+'">'+p[2]+'</span></div>'}).join("");paint()}
+const txt=()=>new Date().toLocaleDateString("fr-FR")+" · "+$("#sp").selectedOptions[0].text+"\n"+cur.map(o=>o.l+" : "+o.c.n+(o.rv?" (renversée)":"")+" · "+(o.rv?o.c.rv:o.c.up)).join("\n");
+function flip(i){const o=cur[i];if(!o)return;o.open=!o.open;$("#tb").querySelectorAll(".card")[i].classList.toggle("open",o.open);paint();if(cur.every(x=>x.open))save()}
+$("#tb").onclick=e=>{const c=e.target.closest(".card");if(c)flip(+c.dataset.i)};
+$("#tb").onkeydown=e=>{if(e.key=="Enter"||e.key==" "){const c=e.target.closest(".card");if(c){e.preventDefault();flip(+c.dataset.i)}}};
+$("#go").onclick=draw;$("#sp").onchange=draw;$("#rv").onchange=draw;
+$("#all").onclick=()=>cur.forEach((o,i)=>{if(!o.open)setTimeout(()=>flip(i),i*250)});
+$("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(txt());$("#cp").textContent="Lecture copiée"}catch(e){$("#cp").textContent="Copie impossible"}setTimeout(()=>$("#cp").textContent="Copier la lecture",1800)};
+function hist(){try{return JSON.parse(localStorage.getItem("arc-h")||"[]")}catch(e){return[]}}
+function showH(){$("#hl").innerHTML=hist().map(t=>'<p></p>').join("");$("#hl").querySelectorAll("p").forEach((p,i)=>p.textContent=hist()[i])}
+function save(){try{localStorage.setItem("arc-h",JSON.stringify([txt(),...hist()].slice(0,8)))}catch(e){}showH()}
+$("#hc").onclick=()=>{try{localStorage.removeItem("arc-h")}catch(e){}showH()};
+const PK=["dk","dc","bk","su","as"];
+function apply(){B.dataset.deck=$("#dk").value;B.dataset.decor=$("#dc").value;B.dataset.back=$("#bk").value;try{localStorage.setItem("arc-p",JSON.stringify(PK.map(k=>$("#"+k).value)))}catch(e){}}
+try{(JSON.parse(localStorage.getItem("arc-p")||"[]")).forEach((v,i)=>{if(PK[i])$("#"+PK[i]).value=v});}catch(e){}
+["dk","dc","bk"].forEach(k=>$("#"+k).onchange=apply);
+["su","as"].forEach(k=>$("#"+k).onchange=()=>{apply();draw()});
+[["fd","--pd","dc"],["fb","--pb","bk"]].forEach(([f,v,s])=>$("#"+f).onchange=e=>{const x=e.target.files[0];if(!x)return;B.style.setProperty(v,"url("+URL.createObjectURL(x)+")");$("#"+s).value="photo";apply()});
+if(["photo"].includes($("#dc").value)&&!B.style.getPropertyValue("--pd"))$("#dc").value="nuit";
+if($("#bk").value=="photo"&&!B.style.getPropertyValue("--pb"))$("#bk").value="etoiles";
+const PRE=(()=>{try{return JSON.parse(localStorage.getItem("arc-p")||"[]")}catch(e){return[]}})();
+const IMGOK=/^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+\/=]+$/;
+let DB=null,sel="";
+const idb=()=>new Promise(r=>{try{const q=indexedDB.open("arcanes",1);q.onupgradeneeded=()=>q.result.createObjectStore("k");q.onsuccess=()=>{DB=q.result;r()};q.onerror=()=>r()}catch(e){r()}});
+const idbGet=()=>new Promise(r=>{if(!DB)return r(null);try{const q=DB.transaction("k").objectStore("k").get("bank");q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)}catch(e){r(null)}});
+const persist=()=>{if(!DB)return;try{DB.transaction("k","readwrite").objectStore("k").put(JSON.stringify(BK),"bank")}catch(e){}};
+function take(o){if(!o||typeof o!="object")return 0;let n=0;const im=o.imgs||{};for(const id in im){const x=im[id];if(x&&/^i[\w-]{1,39}$/.test(id)&&IMGOK.test(x.data)){BK.imgs[id]={name:String(x.name||"image").slice(0,60),data:x.data};n++}}const m=o.map||{};for(const c of DECK)if(BK.imgs[m[c.n]])BK.map[c.n]=m[c.n];if(BK.imgs[o.decor])BK.decor=o.decor;if(BK.imgs[o.back])BK.back=o.back;const p=o.opt||{};for(const c of DECK){const q=p[c.n];if(q&&typeof q=="object")BK.opt[c.n]={f:!!q.f,t:!!q.t}}return n}
+function skin(){const d=BK.imgs[BK.decor],b=BK.imgs[BK.back];if(d)B.style.setProperty("--pd",'url("'+d.data+'")');if(b)B.style.setProperty("--pb",'url("'+b.data+'")')}
+function bank(){const g=$("#bg");g.textContent="";const U={};for(const k in BK.map)(U[BK.map[k]]=U[BK.map[k]]||[]).push(k);for(const id in BK.imgs){const x=BK.imgs[id],b=document.createElement("button"),im=document.createElement("img");b.type="button";b.title=x.name+(U[id]?" → attribuée à : "+U[id].join(", "):"");b.setAttribute("aria-pressed",String(id==sel));im.src=x.data;im.alt=x.name;b.append(im);const L=[];if(U[id])L.push("Attribuée");if(id==BK.decor)L.push("Décor");if(id==BK.back)L.push("Dos");if(L.length){const t=document.createElement("span");t.className="tag";t.textContent=L.join(" · ");b.append(t)}b.onclick=()=>{sel=id;bank()};g.append(b)}
+$("#bs").textContent=Object.keys(BK.imgs).length+" image(s) · "+Object.keys(BK.map).length+" carte(s) illustrée(s) · "+(DECK.length-Object.keys(BK.map).length)+" sans image"+(BK.imgs[sel]?" · sélection : "+BK.imgs[sel].name:" · touchez une image pour la choisir");mark()}
+function mark(){$("#bb").textContent=sel&&sel==BK.back?"Retirer ce dos":"En dos de carte";$("#bd").textContent=sel&&sel==BK.decor?"Retirer ce décor":"En décor";const s=$("#bc");[...s.options].forEach((o,i)=>{const m=!BK.map[DECK[i].n];o.textContent=(m?"🟡 ":"")+DECK[i].n;o.style.background=m?"#f5d442":"";o.style.color=m?"#1a1530":""});const m=!BK.map[DECK[+s.value].n];s.style.background=m?"#f5d442":"";s.style.color=m?"#1a1530":""}
+const msg=t=>{$("#bs").textContent=t;setTimeout(bank,2500)};
+function refresh(){document.querySelectorAll("#tb .front").forEach((f,i)=>{if(cur[i])f.innerHTML=face(cur[i].c,cur[i].rv)})}
+const upd=()=>{persist();bank();refresh()};
+$("#bc").innerHTML=DECK.map((c,i)=>'<option value="'+i+'">'+c.n+'</option>').join("");
+const toData=f=>new Promise((ok,ko)=>{const u=URL.createObjectURL(f),i=new Image();i.onload=()=>{const k=Math.min(1,480/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext("2d").drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/webp",.85))};i.onerror=()=>{URL.revokeObjectURL(u);ko()};i.src=u});
+$("#bi").onchange=async e=>{for(const f of e.target.files){try{const d=await toData(f),id="i"+Date.now().toString(36)+rnd(1e6).toString(36);BK.imgs[id]={name:f.name.replace(/\.\w+$/,"").slice(0,60),data:d};sel=id}catch(x){}}e.target.value="";upd()};
+const cardSel=()=>DECK[+$("#bc").value];
+const opt=()=>BK.opt[cardSel().n]||(BK.opt[cardSel().n]={});
+const syncO=()=>{const o=BK.opt[cardSel().n]||{};$("#of").checked=!!o.f;$("#ot").checked=!!o.t;mark()};
+$("#bc").onchange=syncO;
+$("#of").onchange=()=>{opt().f=$("#of").checked;upd()};
+$("#ot").onchange=()=>{opt().t=$("#ot").checked;upd()};
+$("#oa").onclick=()=>{const f=$("#of").checked,t=$("#ot").checked;DECK.forEach(c=>{BK.opt[c.n]={f,t}});upd()};
+$("#ba").onclick=()=>{if(!BK.imgs[sel])return msg("Choisissez d’abord une image");BK.map[cardSel().n]=sel;upd()};
+$("#br").onclick=()=>{delete BK.map[cardSel().n];upd()};
+$("#bv").onclick=()=>{$("#sp").value="jour";draw();cur[0].c=cardSel();cur[0].rv=false;cur[0].l="Aperçu";refresh();flip(0);$("#tb").scrollIntoView({behavior:"smooth"})};
+$("#bd").onclick=()=>{if(!BK.imgs[sel])return msg("Choisissez d’abord une image");if(BK.decor==sel){BK.decor="";B.style.removeProperty("--pd");$("#dc").value="nuit"}else{BK.decor=sel;skin();$("#dc").value="photo"}apply();persist();bank()};
+$("#bb").onclick=()=>{if(!BK.imgs[sel])return msg("Choisissez d’abord une image");if(BK.back==sel){BK.back="";B.style.removeProperty("--pb");$("#bk").value="etoiles"}else{BK.back=sel;skin();$("#bk").value="photo"}apply();persist();bank()};
+$("#bx").onclick=()=>{if(!BK.imgs[sel])return;for(const k in BK.map)if(BK.map[k]==sel)delete BK.map[k];if(BK.decor==sel){BK.decor="";$("#dc").value="nuit"}if(BK.back==sel){BK.back="";$("#bk").value="etoiles"}delete BK.imgs[sel];sel="";apply();upd()};
+const dump=()=>JSON.stringify({v:1,app:"arcanes",imgs:BK.imgs,map:BK.map,opt:BK.opt,decor:BK.decor,back:BK.back});
+$("#be").onclick=async()=>{try{const d=window.claude&&await window.claude.use("downloads");if(!d)throw 0;await d.save({filename:"arcanes-banque.json",data:dump()});msg("Banque exportée")}catch(e){msg(e&&e.code=="declined"?"Export annulé":"Export impossible ici : utilisez « Copier le code »")}};
+$("#bn").onclick=async()=>{try{await navigator.clipboard.writeText(dump());msg("Code copié")}catch(e){msg("Copie impossible")}};
+$("#bj").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const n=take(JSON.parse(r.result));skin();upd();msg(n+" image(s) importée(s)")}catch(x){msg("Fichier non reconnu")}};r.readAsText(f);e.target.value=""};
+(async()=>{await idb();const s=await idbGet();let ex=0;for(const u of ["arcanes-banque.json","arcanes-banque-mineurs.json","arcanes-banque-mineurs%20.json"]){try{const r=await fetch(u);if(r.ok)ex+=take(await r.json())}catch(e){}}if(s){try{take(JSON.parse(s))}catch(e){}}skin();if(BK.decor&&PRE[1]=="photo")$("#dc").value="photo";if(BK.back&&PRE[2]=="photo")$("#bk").value="photo";apply();bank();refresh();syncO();if(ex)msg("Banque d’exemple chargée : "+ex+" image(s)")})();
+bank();
+const fname=i=>String(i+1).padStart(2,"0")+"-"+DECK[i].n.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,"").toLowerCase()+".png";
+const ds=t=>{$("#ds").textContent=t};
+const cnt=()=>ds(document.querySelectorAll("#dlist input:checked").length+" carte(s) cochée(s)");
+$("#dlist").innerHTML=DECK.map((c,i)=>'<label class="ck"><input type="checkbox" data-i="'+i+'"> '+c.n+'</label>').join("");
+$("#dlist").onchange=cnt;
+const setAll=f=>{document.querySelectorAll("#dlist input").forEach(b=>{b.checked=f(+b.dataset.i)});cnt()};
+$("#da").onclick=()=>setAll(()=>true);$("#dn").onclick=()=>setAll(()=>false);
+$("#dt").onclick=()=>{const s=new Set(cur.map(o=>DECK.indexOf(o.c)));setAll(i=>s.has(i))};
+$("#di").onclick=()=>setAll(i=>!!BK.map[DECK[i].n]);cnt();
+const load=s=>new Promise((ok,ko)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=ko;i.src=s});
+function cover(x,i,dx,dy,dw,dh){const k=Math.max(dw/i.width,dh/i.height),sw=dw/k,sh=dh/k;x.drawImage(i,(i.width-sw)/2,(i.height-sh)/2,sw,sh,dx,dy,dw,dh)}
+const edge=i=>{const t=document.createElement("canvas");t.width=t.height=1;const q=t.getContext("2d");q.drawImage(i,i.width/2,6,1,1,0,0,1,1);const p=q.getImageData(0,0,1,1).data;return"rgb("+p[0]+","+p[1]+","+p[2]+")"};
+async function cardPng(c,pdf){
+const W=700,H=1200,K=pdf?1.2:1,cv=document.createElement("canvas");cv.width=W*K;cv.height=H*K;const x=cv.getContext("2d");x.scale(K,K);x.imageSmoothingQuality="high";
+const st=getComputedStyle(B),v=k=>st.getPropertyValue(k).trim()||"#000",im=BK.imgs[BK.map[c.n]],o=BK.opt[c.n]||{},h=im&&o.t,pic=im?await load(im.data):null;
+try{await document.fonts.load('700 60px "Cormorant Garamond"');await document.fonts.load('400 50px Marcellus')}catch(e){}
+const rr=(a,b,w,hh,r)=>{x.beginPath();if(x.roundRect)x.roundRect(a,b,w,hh,r);else x.rect(a,b,w,hh)};
+const txt=(c2,c3,sh)=>{if(h)return;x.save();x.textAlign="center";x.textBaseline="middle";if(sh){x.shadowColor="#000";x.shadowBlur=14}x.fillStyle=c2;x.font='400 56px Marcellus,serif';x.fillText(c.num,W/2,95);let z=64;x.font='700 '+z+'px "Cormorant Garamond",serif';while(x.measureText(c.n).width>560&&z>30){z-=2;x.font='700 '+z+'px "Cormorant Garamond",serif'}x.fillStyle=c3;x.fillText(c.n,W/2,1090);x.restore()};
+rr(0,0,W,H,pdf?0:46);x.save();x.clip();
+if(pic&&o.f){if(pdf){x.fillStyle=edge(pic);x.fillRect(0,0,W,H)}cover(x,pic,0,0,W,H);txt("#fff","#fff",true)}else{
+x.fillStyle=v("--c1");x.fillRect(0,0,W,H);x.strokeStyle=v("--c2");x.lineWidth=12;rr(18,18,W-36,H-36,34);x.stroke();x.lineWidth=3;rr(38,38,W-76,H-76,24);x.stroke();
+const ay=h?80:150,ah=h?1040:880;
+if(pic){x.save();rr(80,ay,540,ah,16);x.clip();cover(x,pic,80,ay,540,ah);x.restore();x.lineWidth=3;rr(80,ay,540,ah,16);x.stroke()}
+else if(DECK.indexOf(c)<22){x.save();x.textAlign="center";x.textBaseline="middle";x.fillStyle=v("--c4");x.font='360px "Segoe UI Symbol","Noto Sans Symbols 2","Apple Symbols",serif';x.fillText(c.g,W/2,H/2);x.restore()}
+else{const s=S.find(q=>c.n.endsWith(q[0])),inn=s[3].replace(/<\/?svg[^>]*>/g,""),u="data:image/svg+xml;charset=utf-8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 24 24" fill="none" stroke="'+v("--c4")+'" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">'+inn+'</svg>');x.drawImage(await load(u),W/2-180,H/2-180,360,360)}
+txt(v("--c2"),v("--c3"),false)}
+x.restore();return new Promise(r=>cv.toBlob(r,pdf?"image/jpeg":"image/png",.95))}
+const crcT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc=u=>{let c=-1;for(let i=0;i<u.length;i++)c=crcT[(c^u[i])&255]^(c>>>8);return(c^-1)>>>0};
+function zip(files){const en=new TextEncoder(),L=[],C=[];let off=0;
+for(const f of files){const n=en.encode(f.name),c=crc(f.data),s=f.data.length,h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,c,true);h.setUint32(18,s,true);h.setUint32(22,s,true);h.setUint16(26,n.length,true);L.push(h.buffer,n,f.data);
+const d=new DataView(new ArrayBuffer(46));d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x0800,true);d.setUint32(16,c,true);d.setUint32(20,s,true);d.setUint32(24,s,true);d.setUint16(28,n.length,true);d.setUint32(42,off,true);C.push(d.buffer,n);off+=30+n.length+s}
+const cs=C.reduce((a,b)=>a+b.byteLength,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+return new Blob([...L,...C,e.buffer],{type:"application/zip"})}
+function pdf(jpgs,w,h){const en=new TextEncoder(),parts=[],off=[];let len=0;
+const add=x=>{const b=typeof x=="string"?en.encode(x):x;parts.push(b);len+=b.length};
+const obj=(n,body)=>{off[n]=len;add(n+" 0 obj\n"+body+"\nendobj\n")};
+add("%PDF-1.4\n");const N=jpgs.length;
+obj(1,"<< /Type /Catalog /Pages 2 0 R >>");
+obj(2,"<< /Type /Pages /Count "+N+" /Kids ["+jpgs.map((_,i)=>(3+3*i)+" 0 R").join(" ")+"] >>");
+jpgs.forEach((j,i)=>{const p=3+3*i,cs="q "+w+" 0 0 "+h+" 0 0 cm /Im0 Do Q";
+obj(p,"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+w+" "+h+"] /Resources << /XObject << /Im0 "+(p+2)+" 0 R >> >> /Contents "+(p+1)+" 0 R >>");
+obj(p+1,"<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream");
+off[p+2]=len;add((p+2)+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+j.w+" /Height "+j.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.d.length+" >>\nstream\n");add(j.d);add("\nendstream\nendobj\n")});
+const x0=len,tot=3*N+3;add("xref\n0 "+tot+"\n0000000000 65535 f \n");
+for(let n=1;n<tot;n++)add(String(off[n]).padStart(10,"0")+" 00000 n \n");
+add("trailer\n<< /Size "+tot+" /Root 1 0 R >>\nstartxref\n"+x0+"\n%%EOF");
+return new Blob(parts,{type:"application/pdf"})}
+$("#dgo").onclick=async()=>{const ids=[...document.querySelectorAll("#dlist input:checked")].map(i=>+i.dataset.i);if(!ids.length)return ds("Cochez au moins une carte");
+ds("Préparation des images…");
+try{const d=window.claude&&await window.claude.use("downloads");if(!d)throw{code:"unavailable"};
+const js=[];for(const i of ids){const b=await cardPng(DECK[i],true);js.push({d:new Uint8Array(await b.arrayBuffer()),w:840,h:1440})}
+await d.save({filename:ids.length==1?fname(ids[0]).replace(".png",".pdf"):"cartes-tarot.pdf",data:pdf(js,198.43,340.16)});
+ds("Téléchargement proposé : "+ids.length+" carte(s)")}catch(e){ds(e&&e.code=="declined"?"Téléchargement annulé":"Téléchargement impossible ici")}};
+apply();showH();draw();
+</script></body></html>
