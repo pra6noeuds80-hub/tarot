@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Arcanes · tarot et tirages astrologiques (Copy)</title>
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Arcanes · tarot et tirages astrologiques</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Marcellus&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e0f1f;--panel:#171933;--ink:#f1e8d4;--mute:#a9a6bf;--gold:#d6b46a;--line:#3a3c66;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -212,7 +212,7 @@ $("#bd").onclick=()=>{if(!BK.imgs[sel])return msg("Choisissez d’abord une imag
 $("#bb").onclick=()=>{if(!BK.imgs[sel])return msg("Choisissez d’abord une image");if(BK.back==sel){BK.back="";B.style.removeProperty("--pb");$("#bk").value="etoiles"}else{BK.back=sel;skin();$("#bk").value="photo"}apply();persist();bank()};
 $("#bx").onclick=()=>{if(!BK.imgs[sel])return;for(const k in BK.map)if(BK.map[k]==sel)delete BK.map[k];if(BK.decor==sel){BK.decor="";$("#dc").value="nuit"}if(BK.back==sel){BK.back="";$("#bk").value="etoiles"}delete BK.imgs[sel];sel="";apply();upd()};
 const dump=()=>JSON.stringify({v:1,app:"arcanes",imgs:BK.imgs,map:BK.map,opt:BK.opt,decor:BK.decor,back:BK.back});
-$("#be").onclick=async()=>{try{const d=window.claude&&await window.claude.use("downloads");if(!d)throw 0;await d.save({filename:"arcanes-banque.json",data:dump()});msg("Banque exportée")}catch(e){msg(e&&e.code=="declined"?"Export annulé":"Export impossible ici : utilisez « Copier le code »")}};
+$("#be").onclick=async()=>{try{await saveFile("arcanes-banque.json",dump());msg("Banque exportée")}catch(e){msg(e&&e.code=="declined"?"Export annulé":"Export impossible ici : utilisez « Copier le code »")}};
 $("#bn").onclick=async()=>{try{await navigator.clipboard.writeText(dump());msg("Code copié")}catch(e){msg("Copie impossible")}};
 $("#bj").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const n=take(JSON.parse(r.result));skin();upd();msg(n+" image(s) importée(s)")}catch(x){msg("Fichier non reconnu")}};r.readAsText(f);e.target.value=""};
 (async()=>{await idb();const s=await idbGet();let ex=0;for(const u of ["arcanes-banque.json","arcanes-banque-mineurs.json","arcanes-banque-mineurs%20.json"]){try{const r=await fetch(u);if(r.ok)ex+=take(await r.json())}catch(e){}}if(s){try{take(JSON.parse(s))}catch(e){}}skin();if(BK.decor&&PRE[1]=="photo")$("#dc").value="photo";if(BK.back&&PRE[2]=="photo")$("#bk").value="photo";apply();bank();refresh();syncO();if(ex)msg("Banque d’exemple chargée : "+ex+" image(s)")})();
@@ -251,6 +251,9 @@ for(const f of files){const n=en.encode(f.name),c=crc(f.data),s=f.data.length,h=
 const d=new DataView(new ArrayBuffer(46));d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x0800,true);d.setUint32(16,c,true);d.setUint32(20,s,true);d.setUint32(24,s,true);d.setUint16(28,n.length,true);d.setUint32(42,off,true);C.push(d.buffer,n);off+=30+n.length+s}
 const cs=C.reduce((a,b)=>a+b.byteLength,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
 return new Blob([...L,...C,e.buffer],{type:"application/zip"})}
+async function saveFile(name,data){let d=null;try{d=window.claude&&await window.claude.use("downloads")}catch(e){}
+if(d){await d.save({filename:name,data:data});return}
+const b=data instanceof Blob?data:new Blob([data],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 function pdf(jpgs,w,h){const en=new TextEncoder(),parts=[],off=[];let len=0;
 const add=x=>{const b=typeof x=="string"?en.encode(x):x;parts.push(b);len+=b.length};
 const obj=(n,body)=>{off[n]=len;add(n+" 0 obj\n"+body+"\nendobj\n")};
@@ -267,9 +270,9 @@ add("trailer\n<< /Size "+tot+" /Root 1 0 R >>\nstartxref\n"+x0+"\n%%EOF");
 return new Blob(parts,{type:"application/pdf"})}
 $("#dgo").onclick=async()=>{const ids=[...document.querySelectorAll("#dlist input:checked")].map(i=>+i.dataset.i);if(!ids.length)return ds("Cochez au moins une carte");
 ds("Préparation des images…");
-try{const d=window.claude&&await window.claude.use("downloads");if(!d)throw{code:"unavailable"};
+try{
 const js=[];for(const i of ids){const b=await cardPng(DECK[i],true);js.push({d:new Uint8Array(await b.arrayBuffer()),w:840,h:1440})}
-await d.save({filename:ids.length==1?fname(ids[0]).replace(".png",".pdf"):"cartes-tarot.pdf",data:pdf(js,198.43,340.16)});
+await saveFile(ids.length==1?fname(ids[0]).replace(".png",".pdf"):"cartes-tarot.pdf",pdf(js,198.43,340.16));
 ds("Téléchargement proposé : "+ids.length+" carte(s)")}catch(e){ds(e&&e.code=="declined"?"Téléchargement annulé":"Téléchargement impossible ici")}};
 apply();showH();draw();
 </script></body></html>
