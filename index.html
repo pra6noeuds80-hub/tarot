@@ -99,6 +99,7 @@ footer{text-align:center;color:var(--mute);font-size:.85rem;padding:0 1rem 2rem}
 <details class="set" id="dl"><summary>Télécharger des cartes (format tarot)</summary>
 <div class="row"><button id="da">Tout cocher</button><button id="dn">Tout décocher</button><button id="dt">Cartes du tirage</button><button id="di">Cartes illustrées</button></div>
 <div id="dlist"></div><p id="ds" class="bs2"></p>
+<label class="ck"><input type="checkbox" id="dbk" checked> Ajouter le dos après chaque carte (impression recto verso)</label>
 <div class="row"><button class="p" id="dgo">Télécharger la sélection (PDF)</button></div></details>
 <footer>Le tarot est un miroir pour réfléchir, pas une prédiction.</footer>
 <script>
@@ -254,25 +255,38 @@ return new Blob([...L,...C,e.buffer],{type:"application/zip"})}
 async function saveFile(name,data){let d=null;try{d=window.claude&&await window.claude.use("downloads")}catch(e){}
 if(d){await d.save({filename:name,data:data});return}
 const b=data instanceof Blob?data:new Blob([data],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
-function pdf(jpgs,w,h){const en=new TextEncoder(),parts=[],off=[];let len=0;
-const add=x=>{const b=typeof x=="string"?en.encode(x):x;parts.push(b);len+=b.length};
+function pdf(jpgs,w,h,bk){const en=new TextEncoder(),parts=[],off=[];let len=0;
+const add=x=>{const t=typeof x=="string"?en.encode(x):x;parts.push(t);len+=t.length};
 const obj=(n,body)=>{off[n]=len;add(n+" 0 obj\n"+body+"\nendobj\n")};
-add("%PDF-1.4\n");const N=jpgs.length;
+const img=(n,j)=>{off[n]=len;add(n+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+j.w+" /Height "+j.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.d.length+" >>\nstream\n");add(j.d);add("\nendstream\nendobj\n")};
+add("%PDF-1.4\n");let nx=3;const kids=[];
+const page=im=>{const p=nx++,c=nx++,cs="q "+w+" 0 0 "+h+" 0 0 cm /Im0 Do Q";kids.push(p);obj(p,"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+w+" "+h+"] /Resources << /XObject << /Im0 "+im+" 0 R >> >> /Contents "+c+" 0 R >>");obj(c,"<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream")};
+let B=0;if(bk){B=nx++;img(B,bk)}
+for(const j of jpgs){const I=nx++;img(I,j);page(I);if(B)page(B)}
 obj(1,"<< /Type /Catalog /Pages 2 0 R >>");
-obj(2,"<< /Type /Pages /Count "+N+" /Kids ["+jpgs.map((_,i)=>(3+3*i)+" 0 R").join(" ")+"] >>");
-jpgs.forEach((j,i)=>{const p=3+3*i,cs="q "+w+" 0 0 "+h+" 0 0 cm /Im0 Do Q";
-obj(p,"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+w+" "+h+"] /Resources << /XObject << /Im0 "+(p+2)+" 0 R >> >> /Contents "+(p+1)+" 0 R >>");
-obj(p+1,"<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream");
-off[p+2]=len;add((p+2)+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+j.w+" /Height "+j.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.d.length+" >>\nstream\n");add(j.d);add("\nendstream\nendobj\n")});
-const x0=len,tot=3*N+3;add("xref\n0 "+tot+"\n0000000000 65535 f \n");
+obj(2,"<< /Type /Pages /Count "+kids.length+" /Kids ["+kids.map(k=>k+" 0 R").join(" ")+"] >>");
+const x0=len,tot=nx;add("xref\n0 "+tot+"\n0000000000 65535 f \n");
 for(let n=1;n<tot;n++)add(String(off[n]).padStart(10,"0")+" 00000 n \n");
 add("trailer\n<< /Size "+tot+" /Root 1 0 R >>\nstartxref\n"+x0+"\n%%EOF");
 return new Blob(parts,{type:"application/pdf"})}
+async function backPng(){
+const W=700,H=1200,cv=document.createElement("canvas");cv.width=W*1.2;cv.height=H*1.2;const x=cv.getContext("2d");x.scale(1.2,1.2);x.imageSmoothingQuality="high";
+const st=getComputedStyle(B),v=k=>st.getPropertyValue(k).trim()||"#000",kind=B.dataset.back,m=/url\("?([^")]+)"?\)/.exec(B.style.getPropertyValue("--pb")||"");
+if(kind=="photo"&&m){const p=await load(m[1]);x.fillStyle=edge(p);x.fillRect(0,0,W,H);cover(x,p,0,0,W,H)}
+else{x.fillStyle="#1a1b45";x.fillRect(0,0,W,H);
+if(kind=="soleil"){for(let a=0;a<36;a++){x.fillStyle=a%2?"#6a3560":"#2a1c4a";x.beginPath();x.moveTo(W/2,H/2);x.arc(W/2,H/2,1400,a*Math.PI/18,(a+1)*Math.PI/18);x.fill()}}
+else if(kind=="losange"){x.fillStyle="#16304a";x.fillRect(0,0,W,H);x.strokeStyle="#2a5a7a";x.lineWidth=3;for(let i=-H;i<W+H;i+=22){x.beginPath();x.moveTo(i,0);x.lineTo(i+H,H);x.moveTo(i+H,0);x.lineTo(i,H);x.stroke()}}
+else if(kind=="coquille"){x.fillStyle="#3a1d2e";x.fillRect(0,0,W,H);x.strokeStyle="#7a3a55";x.lineWidth=8;for(let r=20;r<1700;r+=22){x.beginPath();x.arc(W/2,H,r,0,7);x.stroke()}}
+else{x.fillStyle="rgba(255,255,255,.35)";for(let a=10;a<W;a+=30)for(let b=10;b<H;b+=30)x.fillRect(a,b,3,3)}
+x.strokeStyle=v("--c2");x.lineWidth=12;x.strokeRect(18,18,W-36,H-36);
+x.fillStyle=v("--c2");x.textAlign="center";x.textBaseline="middle";x.font='220px "Segoe UI Symbol","Noto Sans Symbols 2",serif';x.fillText("\u2726",W/2,H/2)}
+return new Promise(r=>cv.toBlob(r,"image/jpeg",.95))}
 $("#dgo").onclick=async()=>{const ids=[...document.querySelectorAll("#dlist input:checked")].map(i=>+i.dataset.i);if(!ids.length)return ds("Cochez au moins une carte");
 ds("Préparation des images…");
 try{
 const js=[];for(const i of ids){const b=await cardPng(DECK[i],true);js.push({d:new Uint8Array(await b.arrayBuffer()),w:840,h:1440})}
-await saveFile(ids.length==1?fname(ids[0]).replace(".png",".pdf"):"cartes-tarot.pdf",pdf(js,198.43,340.16));
+let bk=null;if($("#dbk").checked){const bb=await backPng();bk={d:new Uint8Array(await bb.arrayBuffer()),w:840,h:1440}}
+await saveFile(ids.length==1?fname(ids[0]).replace(".png",".pdf"):"cartes-tarot.pdf",pdf(js,198.43,340.16,bk));
 ds("Téléchargement proposé : "+ids.length+" carte(s)")}catch(e){ds(e&&e.code=="declined"?"Téléchargement annulé":"Téléchargement impossible ici")}};
 apply();showH();draw();
 </script></body></html>
